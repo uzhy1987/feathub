@@ -15,7 +15,7 @@
 from enum import Enum
 
 from feathub.common.exceptions import FeathubException
-from feathub.common.types import DType, Float64, Int64, MapType, VectorType
+from feathub.common.types import DType, Float64, Int64, MapType, String, VectorType
 
 
 class AggFunc(Enum):
@@ -48,6 +48,6 @@ class AggFunc(Enum):
         elif self == AggFunc.VALUE_COUNTS:
             return MapType(input_type, Int64)
         elif self == AggFunc.COLLECT_LIST:
-            return VectorType(input_type)
+            return String  # VectorType(input_type)
 
         raise FeathubException(f"Unknown AggFunc {self}.")

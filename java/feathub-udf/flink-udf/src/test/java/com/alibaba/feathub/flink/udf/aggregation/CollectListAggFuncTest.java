@@ -29,7 +29,7 @@ public class CollectListAggFuncTest {
         final CollectListAggFunc aggFunc = new CollectListAggFunc(DataTypes.STRING());
 
         CollectListAggFunc.RawDataAccumulator<Object> accumulator = aggFunc.createAccumulator();
-        assertThat((Object[]) aggFunc.getResult(accumulator)).isEmpty();
+        assertThat(aggFunc.getResult(accumulator)).isEmpty();
 
         aggFunc.add(accumulator, "a", 0);
         aggFunc.add(accumulator, "a", 0);

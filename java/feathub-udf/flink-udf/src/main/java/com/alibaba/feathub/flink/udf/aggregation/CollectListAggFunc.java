@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /** An aggregate function that collects values into a list. */
-public class CollectListAggFunc extends RawDataAccumulatingAggFunc<Object, Object> {
+public class CollectListAggFunc extends RawDataAccumulatingAggFunc<Object, String> {
     private final DataType inDataType;
 
     public CollectListAggFunc(DataType inDataType) {
@@ -31,14 +31,20 @@ public class CollectListAggFunc extends RawDataAccumulatingAggFunc<Object, Objec
     }
 
     @Override
-    public Object getResult(RawDataAccumulator<Object> accumulator) {
-        return toArray(
-                accumulator.rawDataList.stream().map(x -> x.f0).collect(Collectors.toList()));
+    public String getResult(RawDataAccumulator<Object> accumulator) {
+        return accumulator.rawDataList.stream()
+                .map(x -> x.f0)
+                .distinct()
+                .map(Object::toString)
+                .collect(Collectors.joining(";"));
+        // return toArray(accumulator.rawDataList.stream().map(x ->
+        // x.f0).collect(Collectors.toList()));
     }
 
     @Override
     public DataType getResultDatatype() {
-        return DataTypes.ARRAY(inDataType);
+        return DataTypes.STRING();
+        // return DataTypes.ARRAY(inDataType);
     }
 
     public static Object toArray(List<Object> values) {
